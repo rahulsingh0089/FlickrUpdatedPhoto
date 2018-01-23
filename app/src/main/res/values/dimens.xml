@@ -1,0 +1,7 @@
+<resources>
+    <dimen name="fab_margin">16dp</dimen>
+    <dimen name="activity_margin">16dp</dimen>
+    <dimen name="thumbnail">150dp</dimen>
+    <dimen name="row_padding">10dp</dimen>
+    <dimen name="title_name">15dp</dimen>
+</resources>
