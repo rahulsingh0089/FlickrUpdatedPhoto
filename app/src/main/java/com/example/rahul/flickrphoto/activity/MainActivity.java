@@ -35,7 +35,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity implements PhotoAdapter.ContactsAdapterListener {
+public class MainActivity extends AppCompatActivity implements PhotoAdapter.PhotoAdapterListener {
 
     private static final String TAG = MainActivity.class.getSimpleName();
     private RecyclerView mRecyclerView;
@@ -57,7 +57,7 @@ public class MainActivity extends AppCompatActivity implements PhotoAdapter.Cont
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        // toolbar fancy stuff
+
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle(R.string.toolbar_title);
 
@@ -71,13 +71,14 @@ public class MainActivity extends AppCompatActivity implements PhotoAdapter.Cont
         dummyList=new ArrayList<>();
         mAdapter=new PhotoAdapter(this,photoList,this,mRecyclerView);
         mRecyclerView.setAdapter(mAdapter);
-       // if(savedInstanceState==null)
+
+        //call the API and parse the JSON
        dummyList= sendRequest(JSON_URL);
 
   mAdapter.setOnLoadMoreListener(new OnLoadMoreListener() {
     @Override
     public void onLoadMore() {
-        Log.e("haint", "Load More");
+        Log.e("MainActivity", "Load More");
         photoList.add(null);
         mAdapter.notifyItemInserted(photoList.size() - 1);
         new Handler().postDelayed(new Runnable() {
@@ -187,7 +188,7 @@ public class MainActivity extends AppCompatActivity implements PhotoAdapter.Cont
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);
 
-        // Associate searchable configuration with the SearchView
+        // searchable configuration with the SearchView
         SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
         searchView = (SearchView) menu.findItem(R.id.action_search)
                 .getActionView();
@@ -195,7 +196,7 @@ public class MainActivity extends AppCompatActivity implements PhotoAdapter.Cont
                 .getSearchableInfo(getComponentName()));
         searchView.setMaxWidth(Integer.MAX_VALUE);
 
-        // call on search query text change
+        //call on search query text change
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
@@ -227,7 +228,7 @@ public class MainActivity extends AppCompatActivity implements PhotoAdapter.Cont
 
     @Override
     public void onBackPressed() {
-        // close search view on back button pressed
+
         if (!searchView.isIconified()) {
             searchView.setIconified(true);
             return;
@@ -236,8 +237,8 @@ public class MainActivity extends AppCompatActivity implements PhotoAdapter.Cont
     }
 
     @Override
-    public void onContactSelected(PhotoDetail contact) {
-        Toast.makeText(getApplicationContext(), "Selected: " + contact.getTite() + " Select ", Toast.LENGTH_LONG).show();
+    public void onPhotoSelected(PhotoDetail photoDetail) {
+        Toast.makeText(getApplicationContext(), "Selected: " + photoDetail.getTite() + " Select ", Toast.LENGTH_LONG).show();
     }
 }
 

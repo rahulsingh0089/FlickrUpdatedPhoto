@@ -30,7 +30,7 @@ public class PhotoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     private Context context;
     private List<PhotoDetail> photoList;
     private List<PhotoDetail> photoListFiltered;
-    private ContactsAdapterListener listener;
+    private PhotoAdapterListener listener;
 
     //onScroll
     private final int VIEW_TYPE_ITEM = 0;
@@ -55,7 +55,7 @@ public class PhotoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             v.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    listener.onContactSelected(photoListFiltered.get(getAdapterPosition()));
+                    listener.onPhotoSelected(photoListFiltered.get(getAdapterPosition()));
                 }
             });
 
@@ -71,7 +71,7 @@ public class PhotoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         }
     }
 
-    public PhotoAdapter(Context context,List<PhotoDetail> photoList, ContactsAdapterListener listener,RecyclerView recyclerView) {
+    public PhotoAdapter(Context context,List<PhotoDetail> photoList, PhotoAdapterListener listener,RecyclerView recyclerView) {
         this.photoList = photoList;
         this.context=context;
         this.listener=listener;
@@ -108,7 +108,6 @@ public class PhotoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             return new MyViewHolder(view);
         }else if(viewType==VIEW_TYPE_LOADING){
             View view=LayoutInflater.from(context).inflate(R.layout.photo_loading,parent,false);
-            ViewHolder vh=new MyViewHolder(view);
             return new LoadingViewHolder(view);
         }
         return null;
@@ -177,8 +176,8 @@ public class PhotoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         };
     }
 
-    public interface ContactsAdapterListener {
-        void onContactSelected(PhotoDetail contact);
+    public interface PhotoAdapterListener {
+        void onPhotoSelected(PhotoDetail photoDetail);
     }
 
 }
